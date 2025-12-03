@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  evolution-api:
+    image: ghcr.io/evolution-api/evolution-api:latest # Substitua se tiver outra imagem
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: evolution
+      POSTGRES_USER: evo
+      POSTGRES_PASSWORD: sua_senha_segura
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    restart: always
+    volumes:
+      - redisdata:/data
+
+volumes:
+  pgdata:
+  redisdata:
+  
